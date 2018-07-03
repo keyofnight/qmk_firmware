@@ -23,25 +23,11 @@ enum preonic_layers {
     _RAISE
 };
 
-enum {
-    TD_RESET = 0
-};
+// enum {
+//    TD_RESET = 0
+// };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-    /* QWERTY
-     * ,-----------------------------------------------------------------------------------.
-     * |  `   |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
-     * |------+------+------+------+------+------+------+------+------+------+------+------|
-     * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  |  -   |
-     * |------+------+------+------+------+-------------+------+------+------+------+------|
-     * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |Ret/Sh|
-     * |------+------+------+------+------+------|------+------+------+------+------+------|
-     * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |  '   |
-     * |------+------+------+------+------+------+------+------+------+------+------+------|
-     * | Blank| Ctrl |  Alt |  OS  | Lower|    Space    | Raise|  OS  |  [   |   ]  |  \   |
-     * `-----------------------------------------------------------------------------------'
-     */
 
     [_QWERTY] = {
         {KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,      KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC},
@@ -51,47 +37,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         {KC_DEL,   KC_LCTL, KC_LALT, KC_LGUI, MO(_RAISE),KC_SPC,  KC_SPC,  MO(_LOWER), KC_RGUI, KC_LBRC, KC_RBRC, KC_BSLS}
     },
 
-    /* LOWER
-     * ,-----------------------------------------------------------------------------------.
-     * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
-     * |------+------+------+------+------+------+------+------+------+------+------+------|
-     * | Tab  | Prev | Play | Next |      |      |      | Reset|      |      |      |      |
-     * |------+------+------+------+------+-------------+------+------+------+------+------|
-     * | Reset| Vol- | Mute | Vol+ |      |      |      |Au_off| Au_on|      |      |      |
-     * |------+------+------+------+------+------|------+------+------+------+------+------|
-     * | Shift|      |      |      |      |      |      |Mu_off| Mu_on|      |      |      |
-     * |------+------+------+------+------+------+------+------+------+------+------+------|
-     * | Blank| Ctrl |  Alt |  OS  | Lower|    Space    | Raise|  OS  |      |      |      |
-     * `-----------------------------------------------------------------------------------'
-     */
-
     [_LOWER] = {
-        {KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,    KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12},
-        {KC_TAB,  KC_MPRV, KC_MPLY, KC_MNXT, KC_NO, KC_NO, KC_NO,  KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO},
-        {RESET,  KC_VOLD, KC_MUTE, KC_VOLU, KC_NO, KC_NO, KC_NO,  AU_OFF,   AU_ON,    KC_NO, KC_NO, KC_ENT},
-        {KC_LSFT, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  MU_OFF,   MU_ON,    KC_NO, KC_NO, MT(MOD_RSFT, KC_QUOT)},
-        {KC_DEL, KC_LCTL, KC_LALT, KC_LGUI, MO(_RAISE),KC_SPC,KC_SPC,  MO(_LOWER), KC_RGUI, KC_LBRC, KC_RBRC, KC_BSLS}
+        {KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,     KC_F6,  KC_F7,  KC_F8,      KC_F9,  KC_F10, KC_F11, KC_F12},
+        {KC_TAB,  KC_MPRV, KC_MPLY, KC_MNXT, KC_NO,     KC_NO,  KC_NO,  KC_NO,      KC_NO,  KC_NO,  KC_NO,  KC_NO},
+        {RESET,   KC_VOLD, KC_MUTE, KC_VOLU, KC_NO,     KC_NO,  KC_NO,  AU_OFF,     AU_ON,  KC_NO,  KC_NO,  KC_ENT},
+        {KC_LSFT, KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,  KC_NO,  MU_OFF,     MU_ON,  KC_NO,  KC_NO,  MT(MOD_RSFT, KC_QUOT)},
+        {KC_DEL,  KC_LCTL, KC_LALT, KC_LGUI, MO(_RAISE),KC_SPC, KC_SPC, MO(_LOWER), KC_RGUI,KC_LBRC,KC_RBRC,KC_BSLS}
     },
 
-    /* RAISE
-     * ,-----------------------------------------------------------------------------------.
-     * |      |      |      |      |      |      |      |   7  |   8  |   9  |   *  | Bksp |
-     * |------+------+------+------+------+------+------+------+------+------+------+------|
-     * | Tab  | Home |  Up  | End  | PgUp |      |      |   4  |   5  |   6  |   +  |  -   |
-     * |------+------+------+------+------+-------------+------+------+------+------+------|
-     * | Esc  | Left | Down |Right | PgDn |      |      |   1  |   2  |   3  |   =  | Enter|
-     * |------+------+------+------+------+------|------+------+------+------+------+------|
-     * | Shift|      |      |      |      |      |      |      |   0  |   .  |   /  |'/Shft|
-     * |------+------+------+------+------+------+------+------+------+------+------+------|
-     * | Blank| Ctrl |  Alt |  OS  | Lower|    Space    | Raise|  OS  |      |      |      |
-     * `-----------------------------------------------------------------------------------'
-     */
     [_RAISE] = {
-        {KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_P7,   KC_P8,   KC_P9,   KC_PAST, KC_BSPC},
-        {KC_TAB,  KC_HOME, KC_UP,   KC_END,  KC_PGUP, KC_NO, KC_NO, KC_P4,   KC_P5,   KC_P6,   KC_PPLS, KC_PMNS},
-        {KC_ESC,  KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, KC_NO, KC_NO, KC_P1,   KC_P2,   KC_P3,   KC_PEQL,  KC_ENT},
-        {KC_LSFT, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_P0,   KC_PDOT, KC_PSLS, MT(MOD_RSFT, KC_QUOT)},
-        {KC_DEL, KC_LCTL, KC_LALT, KC_LGUI, MO(_RAISE),KC_SPC,KC_SPC,  MO(_LOWER), KC_RGUI, KC_LBRC, KC_RBRC, KC_BSLS}
+        {KC_NO,  KC_NO,   KC_NO,  KC_NO,    KC_NO,      KC_NO, KC_NO, KC_P7,    KC_P8,    KC_P9,   KC_PAST, KC_BSPC},
+        {KC_TAB, KC_HOME, KC_UP,  KC_END,   KC_PGUP,    KC_NO, KC_NO, KC_P4,    KC_P5,    KC_P6,   KC_PPLS, KC_PMNS},
+        {KC_ESC, KC_LEFT, KC_DOWN,KC_RGHT,  KC_PGDN,    KC_NO, KC_NO, KC_P1,    KC_P2,    KC_P3,   KC_PEQL, KC_ENT},
+        {KC_LSFT,KC_NO,   KC_NO,  KC_NO,    KC_NO,      KC_NO, KC_NO, KC_NO,    KC_P0,    KC_PDOT, KC_PSLS, MT(MOD_RSFT, KC_QUOT)},
+        {KC_DEL, KC_LCTL, KC_LALT,KC_LGUI,  MO(_RAISE), KC_SPC,KC_SPC,MO(_LOWER),KC_RGUI, KC_LBRC, KC_RBRC, KC_BSLS}
     },
 };
 
