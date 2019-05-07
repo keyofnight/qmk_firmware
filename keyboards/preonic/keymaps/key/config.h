@@ -37,9 +37,9 @@
 
 // tap tap tap tap 
 
-#define TAPPING_TERM 190
+#define TAPPING_TERM 220
 #define PREVENT_STUCK_MODIFIERS
 #define IGNORE_MOD_TAP_INTERRUPT
-#define PERMISSIVE_HOLD
+#undef  PERMISSIVE_HOLD
 
 #endif
