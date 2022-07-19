@@ -31,6 +31,10 @@ Ported to QMK by Peter Roe <pete@13bit.me>
 #include "led.h"
 #include "timer.h"
 
+#ifndef ADB_MOUSE_MAXACC
+#    define ADB_MOUSE_MAXACC 8
+#endif
+
 static bool is_iso_layout = false;
 
 // matrix state buffer(1:on, 0:off)
@@ -58,26 +62,20 @@ void matrix_scan_user(void) {
 
 void matrix_init(void)
 {
-    // LED on
-    DDRD |= (1<<6); PORTD |= (1<<6);
-
     adb_host_init();
+
     // wait for keyboard to boot up and receive command
     _delay_ms(2000);
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) matrix[i] = 0x00;
 
-    led_set(host_keyboard_leds());
-
-    // debug_enable = false;
+    // debug_enable = true;
     // debug_matrix = true;
     // debug_keyboard = true;
     // debug_mouse = true;
     // print("debug enabled.\n");
 
-    // LED off
-    DDRD |= (1<<6); PORTD &= ~(1<<6);
     matrix_init_quantum();
 }
 
@@ -89,6 +87,10 @@ void matrix_init(void)
 #define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
 
 static report_mouse_t mouse_report = {};
+
+void housekeeping_task_kb(void) {
+    adb_mouse_task();
+}
 
 void adb_mouse_task(void)
 {
@@ -135,8 +137,8 @@ void adb_mouse_task(void)
     if (debug_mouse) {
             print("adb_host_mouse_recv: "); print_bin16(codes); print("\n");
             print("adb_mouse raw: [");
-            phex(mouseacc); print(" ");
-            phex(mouse_report.buttons); print("|");
+            print_hex8(mouseacc); print(" ");
+            print_hex8(mouse_report.buttons); print("|");
             print_decs(mouse_report.x); print(" ");
             print_decs(mouse_report.y); print("]\n");
     }
@@ -179,7 +181,7 @@ uint8_t matrix_scan(void)
     key1 = codes&0xFF;
 
     if (debug_matrix && codes) {
-        print("adb_host_kbd_recv: "); phex16(codes); print("\n");
+        print("adb_host_kbd_recv: "); print_hex16(codes); print("\n");
     }
 
     if (codes == 0) {                           // no keys

@@ -1,1 +1,1 @@
-BACKLIGHT_ENABLE = no
+# This file intentionally left blank

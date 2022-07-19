@@ -1,24 +1,19 @@
+/* Copyright 2018 Biacco42
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include QMK_KEYBOARD_H
-#include "bootloader.h"
-#ifdef PROTOCOL_LUFA
-#include "lufa.h"
-#include "split_util.h"
-#endif
-#ifdef AUDIO_ENABLE
-  #include "audio.h"
-#endif
-#ifdef SSD1306OLED
-  #include "ssd1306.h"
-#endif
-
-extern keymap_config_t keymap_config;
-
-#ifdef RGBLIGHT_ENABLE
-//Following line allows macro to read current RGB settings
-extern rgblight_config_t rgblight_config;
-#endif
-
-extern uint8_t is_master;
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -31,9 +26,6 @@ enum layer_number {
     GAME
 };
 
-// Fillers to make layering more clear
-#define _______ KC_TRNS
-#define XXXXXXX KC_NO
 //Macros
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -55,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,             KC_T,                                     KC_Y,             KC_U,    KC_I,    KC_O,     KC_P,       KC_LBRC, \
       KC_LALT, KC_A,    KC_S,    KC_D,    KC_F,             KC_G,                                     KC_H,             KC_J,    KC_K,    KC_L,     KC_SCLN,    KC_QUOT, \
       KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,             KC_B,                                     KC_N,             KC_M,    KC_COMM, KC_DOT,   KC_SLSH,    SFT_T(KC_RO) , \
-      KC_LCTL, KC_LGUI, KC_APP,  KC_PSCR, LT(SYMB, KC_ESC), RCTL_T(KC_SPC), SFT_T(KC_TAB),  KC_BSPC,  LT(META, KC_ENT), KC_DELT, KC_PSCR, TG(GAME), TG(SYMB),   KC_JYEN \
+      KC_LCTL, KC_LGUI, KC_APP,  KC_PSCR, LT(SYMB, KC_ESC), RCTL_T(KC_SPC), SFT_T(KC_TAB),  KC_BSPC,  LT(META, KC_ENT), KC_DEL,  KC_PSCR, TG(GAME), TG(SYMB),   KC_JYEN \
       ),
 
   /* META
@@ -112,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,   KC_Q,    KC_W,   KC_E,    KC_R,   KC_T,                           KC_Y,   KC_U,    KC_I,     KC_O,    KC_P,    KC_LBRC, \
     KC_LALT,  KC_A,    KC_S,   KC_D,    KC_F,   KC_G,                           KC_H,   KC_J,    KC_K,     KC_L,    KC_SCLN, KC_QUOT, \
     KC_LSFT,  KC_Z,    KC_X,   KC_C,    KC_V,   KC_B,                           KC_N,   KC_M,    KC_COMM,  KC_DOT,  KC_SLSH, SFT_T(KC_RO), \
-    KC_LCTRL, KC_LGUI, KC_APP, KC_PSCR, KC_ESC, KC_SPC, KC_TAB,     KC_BSPC,    KC_ENT, KC_DELT, KC_PSCR,  _______, _______, KC_JYEN \
+    KC_LCTRL, KC_LGUI, KC_APP, KC_PSCR, KC_ESC, KC_SPC, KC_TAB,     KC_BSPC,    KC_ENT, KC_DEL,  KC_PSCR,  _______, _______, KC_JYEN \
   )
 
 };

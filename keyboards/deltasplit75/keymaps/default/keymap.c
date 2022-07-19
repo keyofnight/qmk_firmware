@@ -1,16 +1,10 @@
 #include QMK_KEYBOARD_H
 
-extern keymap_config_t keymap_config;
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
-
-// Fillers to make layering more clear
-
-#define _______ KC_TRNS
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   LAYOUT_v2(
@@ -23,11 +17,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   LAYOUT_v2(
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, QK_BOOT,
     KC_BSLS, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, KC_VOLU, KC_UP,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-    M(1),    KC_LEFT, KC_DOWN, KC_RGHT, KC_PAUS, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-    _______, _______, KC_VOLD, M(0),    KC_PSCR, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PAUS, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
+    _______, _______, KC_VOLD, _______, KC_PSCR, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______,                   _______, _______, _______,                   _______, _______, _______, _______, _______, _______
   ),
 

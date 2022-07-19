@@ -57,10 +57,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "led.h"
 #define COUNT(x) (sizeof (x) / sizeof (*(x)))
 
-// Fillers to make layering clearer
-#define _______ KC_TRNS
-#define XXXXXXX KC_NO
-#define G(x) LGUI(x)
 #define KC_WWWB KC_WWW_BACK
 #define KC_WWWF KC_WWW_FORWARD
 
@@ -88,7 +84,6 @@ enum glow_modes {
 uint8_t glow_mode = GLOW_MIN;
 
 void turn_off_capslock(void);
-extern keymap_config_t keymap_config;
 
 // layers, ordering is important!
 enum layers {
@@ -142,7 +137,7 @@ enum planck_keycodes {
 #ifndef FAUXCLICKY_ENABLE
   FC_TOG,
 #endif
-#ifndef MODULE_ADAFRUIT_BLE
+#ifndef BLUETOOTH_BLUEFRUIT_LE
   OUT_BT,
 #endif
   RGBDEMO,
@@ -945,7 +940,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_SYS] = LAYOUT(
-  DEBUG,   QWERTY,  WIN,     XXXXXXX, RESET,   XXXXXXX, XXXXXXX, OUT_USB, XXXXXXX, XXXXXXX, XXXXXXX, RGBDEMO,
+  DEBUG,   QWERTY,  WIN,     XXXXXXX, QK_BOOT,   XXXXXXX, XXXXXXX, OUT_USB, XXXXXXX, XXXXXXX, XXXXXXX, RGBDEMO,
   XXXXXXX, FC_TOG,  XXXXXXX, DVORAK,  XXXXXXX, GLOW,    XXXXXXX, XXXXXXX, WORKMAN, LINUX,   XXXXXXX, XXXXXXX,
   XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, OUT_BT,  NORMAN,  OSX,     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
@@ -991,7 +986,7 @@ void process_doublespace(bool pressed, bool *isactive, bool *otheractive, bool *
 }
 #endif
 
-uint32_t layer_state_set_kb(uint32_t state)
+layer_state_t layer_state_set_user(layer_state_t state)
 {
   // turn on punc layer if both fun & num are on
   if ((state & ((1UL<<_NUM) | (1UL<<_FUN))) == ((1UL<<_NUM) | (1UL<<_FUN))) {
@@ -1266,7 +1261,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void set_output_user(uint8_t output) {
-#ifdef MODULE_ADAFRUIT_BLE
+#ifdef BLUETOOTH_BLUEFRUIT_LE
   switch(output) {
     case OUTPUT_USB:
       led_set_output_usb();
@@ -1281,7 +1276,7 @@ void set_output_user(uint8_t output) {
 }
 
 void matrix_init_user() {
-  _delay_ms(500); // give time for usb to initialize
+  wait_ms(500); // give time for usb to initialize
 
   set_unicode_input_mode(UC_LNX);
 
@@ -1290,7 +1285,7 @@ void matrix_init_user() {
 #endif
 
   // auto detect output on init
-#ifdef MODULE_ADAFRUIT_BLE
+#ifdef BLUETOOTH_BLUEFRUIT_LE
   uint8_t output = auto_detect_output();
   if (output == OUTPUT_USB) {
     set_output(OUTPUT_USB);
