@@ -1,6 +1,5 @@
 // Copyright 2018-2022 Nick Brassel (@tzarc)
 // SPDX-License-Identifier: GPL-2.0-or-later
-#include QMK_KEYBOARD_H
 #include <hal.h>
 #include <string.h>
 #include <ctype.h>
@@ -32,49 +31,6 @@ static painter_image_handle_t lock_scrl_off;
 static painter_font_handle_t  thintel;
 
 //----------------------------------------------------------
-// RGB Matrix naming
-#if defined(RGB_MATRIX_ENABLE)
-#    include <rgb_matrix.h>
-
-#    if defined(RGB_MATRIX_EFFECT)
-#        undef RGB_MATRIX_EFFECT
-#    endif // defined(RGB_MATRIX_EFFECT)
-
-#    define RGB_MATRIX_EFFECT(x) RGB_MATRIX_EFFECT_##x,
-enum {
-    RGB_MATRIX_EFFECT_NONE,
-#    include "rgb_matrix_effects.inc"
-#    undef RGB_MATRIX_EFFECT
-#    ifdef RGB_MATRIX_CUSTOM_KB
-#        include "rgb_matrix_kb.inc"
-#    endif
-#    ifdef RGB_MATRIX_CUSTOM_USER
-#        include "rgb_matrix_user.inc"
-#    endif
-};
-
-#    define RGB_MATRIX_EFFECT(x)    \
-        case RGB_MATRIX_EFFECT_##x: \
-            return #x;
-const char *rgb_matrix_name(uint8_t effect) {
-    switch (effect) {
-        case RGB_MATRIX_EFFECT_NONE:
-            return "NONE";
-#    include "rgb_matrix_effects.inc"
-#    undef RGB_MATRIX_EFFECT
-#    ifdef RGB_MATRIX_CUSTOM_KB
-#        include "rgb_matrix_kb.inc"
-#    endif
-#    ifdef RGB_MATRIX_CUSTOM_USER
-#        include "rgb_matrix_user.inc"
-#    endif
-        default:
-            return "UNKNOWN";
-    }
-}
-#endif // defined(RGB_MATRIX_ENABLE)
-
-//----------------------------------------------------------
 // UI Initialisation
 void keyboard_post_init_display(void) {
     djinn_logo    = qp_load_image_mem(gfx_djinn);
@@ -89,8 +45,8 @@ void keyboard_post_init_display(void) {
 
 //----------------------------------------------------------
 // UI Drawing
-void draw_ui_user(void) {
-    bool            hue_redraw = false;
+void draw_ui_user(bool force_redraw) {
+    bool            hue_redraw = force_redraw;
     static uint16_t last_hue   = 0xFFFF;
 #if defined(RGB_MATRIX_ENABLE)
     uint16_t curr_hue = rgb_matrix_get_hue();
@@ -158,7 +114,7 @@ void draw_ui_user(void) {
         if (hue_redraw || rgb_effect_redraw) {
             static int max_rgb_xpos = 0;
             xpos                    = 16;
-            snprintf_(buf, sizeof(buf), "rgb: %s", rgb_matrix_name(curr_effect));
+            snprintf(buf, sizeof(buf), "rgb: %s", rgb_matrix_get_mode_name(curr_effect));
 
             for (int i = 5; i < sizeof(buf); ++i) {
                 if (buf[i] == 0)
@@ -187,7 +143,7 @@ void draw_ui_user(void) {
 
             static int max_layer_xpos = 0;
             xpos                      = 16;
-            snprintf_(buf, sizeof(buf), "layer: %s", layer_name);
+            snprintf(buf, sizeof(buf), "layer: %s", layer_name);
             xpos += qp_drawtext_recolor(lcd, xpos, ypos, thintel, buf, curr_hue, 255, 255, curr_hue, 255, 0);
             if (max_layer_xpos < xpos) {
                 max_layer_xpos = xpos;
@@ -200,7 +156,7 @@ void draw_ui_user(void) {
         if (hue_redraw || power_state_redraw) {
             static int max_power_xpos = 0;
             xpos                      = 16;
-            snprintf_(buf, sizeof(buf), "power: %s", usbpd_str(kb_state.current_setting));
+            snprintf(buf, sizeof(buf), "power: %s", usbpd_str(kb_state.current_setting));
             xpos += qp_drawtext_recolor(lcd, xpos, ypos, thintel, buf, curr_hue, 255, 255, curr_hue, 255, 0);
             if (max_power_xpos < xpos) {
                 max_power_xpos = xpos;
@@ -213,7 +169,7 @@ void draw_ui_user(void) {
         if (hue_redraw || scan_redraw) {
             static int max_scans_xpos = 0;
             xpos                      = 16;
-            snprintf_(buf, sizeof(buf), "scans: %d", (int)theme_state.scan_rate);
+            snprintf(buf, sizeof(buf), "scans: %d", (int)theme_state.scan_rate);
             xpos += qp_drawtext_recolor(lcd, xpos, ypos, thintel, buf, curr_hue, 255, 255, curr_hue, 255, 0);
             if (max_scans_xpos < xpos) {
                 max_scans_xpos = xpos;
@@ -226,7 +182,7 @@ void draw_ui_user(void) {
         if (hue_redraw || wpm_redraw) {
             static int max_wpm_xpos = 0;
             xpos                    = 16;
-            snprintf_(buf, sizeof(buf), "wpm: %d", (int)get_current_wpm());
+            snprintf(buf, sizeof(buf), "wpm: %d", (int)get_current_wpm());
             xpos += qp_drawtext_recolor(lcd, xpos, ypos, thintel, buf, curr_hue, 255, 255, curr_hue, 255, 0);
             if (max_wpm_xpos < xpos) {
                 max_wpm_xpos = xpos;
